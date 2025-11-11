@@ -2,9 +2,6 @@
 
 TAG = "\\033[32\;1mMakefile\\033[0m"
 
-# Targets
-.PHONY: all build flash monitor config print_tasks
-
 # Variables
 .PHONY: SDKCONFIG BAUD PORT
 

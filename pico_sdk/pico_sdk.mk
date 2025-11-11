@@ -5,6 +5,8 @@ TAG = "\\033[32\;1mMakefile\\033[0m"
 # Variables
 .PHONY: PICO_MODEL BUS ADDRESS INTERFACE PROJECT_NAME
 
+MAKEFILE_DIR := $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
+
 VALID_PICO_MODELS := RP2040 RP2350
 RP2040_BUILD_DIR := build_rp2040
 RP2350_BUILD_DIR := build_rp2350
@@ -85,7 +87,7 @@ endif
 	cd ../
 	@echo "${TAG} | Build completed. Files at ${CURRENT_BUILD_DIR}"
 	
-flash:
+flash_picotool:
 ifndef PICO_MODEL
 	$(error PICO_MODEL is not set. Please run 'make flash PICO_MODEL=['RP2040', 'RP2350']')
 endif
@@ -101,8 +103,24 @@ endif
 
 	@set -e; \
 	echo "${TAG} | picotool requires root access. Please input credentials if required"; \
-	echo "${TAG} | Flashing to pico device ${CHIPID}"; \
+	echo "${TAG} | Flashing to pico device ${CHIPID} using Picotool"; \
 	sudo picotool load ${CURRENT_BUILD_DIR}/main/${PROJECT_NAME}.uf2 -f --ser ${CHIPID}; \
+	echo "${TAG} | Pico flashed"
+
+flash_swd:
+ifndef PICO_MODEL
+	$(error PICO_MODEL is not set. Please run 'make flash PICO_MODEL=['RP2040', 'RP2350']')
+endif
+ifeq (,$(filter $(PICO_MODEL), $(VALID_PICO_MODELS)))
+	$(error PICO_MODEL is invalid. Please run 'make flash PICO_MODEL=['RP2040', 'RP2350']')
+endif
+ifeq (${PROJECT_NAME},)
+	$(error PROJECT_NAME is not set. Run "make set_project_name PROJECT_NAME=[MyProjectName]". Where MyProjectName is the name given to the top level CMake)
+endif
+
+	@set -e; \
+	echo "${TAG} | Flashing to pico device using SWD"; \
+	bash ${MAKEFILE_DIR}flash_rpxxxx_over_swd.sh -f ${CURRENT_BUILD_DIR}/main/${PROJECT_NAME}.elf; \
 	echo "${TAG} | Pico flashed"
 
 monitor:
