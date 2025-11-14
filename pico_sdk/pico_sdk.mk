@@ -3,7 +3,7 @@
 TAG = "\\033[32\;1mMakefile\\033[0m"
 
 # Variables
-.PHONY: PICO_MODEL BUS ADDRESS INTERFACE PROJECT_NAME
+.PHONY: BUS ADDRESS INTERFACE PROJECT_NAME
 
 MAKEFILE_DIR := $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
 
@@ -47,7 +47,9 @@ set_interface:
 
 set_board:
 	@set -e; \
-	PICO_MODEL=${PICO_MODEL}; \
+	echo "List of boards:"; \
+	echo "${VALID_PICO_MODELS}"; \
+	read -p "Enter RPxxxx target: " PICO_MODEL; \
 	mkdir -p $(dir ${PICO_MODEL_FILENAME}); \
 	echo "$$PICO_MODEL" > ${PICO_MODEL_FILENAME}; \
 	echo "Pico model [$$PICO_MODEL] saved to ${PICO_MODEL_FILENAME}"
@@ -69,10 +71,10 @@ get_sn:
 
 build:
 ifndef PICO_MODEL
-	$(error PICO_MODEL is not set. Please run 'make build PICO_MODEL=['RP2040', 'RP2350']')
+	$(error PICO_MODEL is not set. Please run 'make set_board')
 endif
 ifeq (,$(filter $(PICO_MODEL), $(VALID_PICO_MODELS)))
-	$(error PICO_MODEL is invalid. Please run 'make build PICO_MODEL=['RP2040', 'RP2350']')
+	$(error PICO_MODEL is invalid. Please run 'make set_board')
 endif
 
 	@set -e; \
@@ -89,10 +91,10 @@ endif
 	
 flash_picotool:
 ifndef PICO_MODEL
-	$(error PICO_MODEL is not set. Please run 'make flash PICO_MODEL=['RP2040', 'RP2350']')
+	$(error PICO_MODEL is not set. Please run 'make set_board')
 endif
 ifeq (,$(filter $(PICO_MODEL), $(VALID_PICO_MODELS)))
-	$(error PICO_MODEL is invalid. Please run 'make flash PICO_MODEL=['RP2040', 'RP2350']')
+	$(error PICO_MODEL is invalid. Please run 'make set_board')
 endif
 ifeq (${CHIPID},)
 	$(error CHIPID is not set. Run 'make get_sn' first)
@@ -109,10 +111,10 @@ endif
 
 flash_swd:
 ifndef PICO_MODEL
-	$(error PICO_MODEL is not set. Please run 'make flash PICO_MODEL=['RP2040', 'RP2350']')
+	$(error PICO_MODEL is not set. Please run 'make set_board')
 endif
 ifeq (,$(filter $(PICO_MODEL), $(VALID_PICO_MODELS)))
-	$(error PICO_MODEL is invalid. Please run 'make flash PICO_MODEL=['RP2040', 'RP2350']')
+	$(error PICO_MODEL is invalid. Please run 'make set_board')
 endif
 ifeq (${PROJECT_NAME},)
 	$(error PROJECT_NAME is not set. Run "make set_project_name PROJECT_NAME=[MyProjectName]". Where MyProjectName is the name given to the top level CMake)

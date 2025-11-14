@@ -3,7 +3,7 @@
 TAG = "\\033[32\;1mMakefile\\033[0m"
 
 # Variables
-.PHONY: SDKCONFIG BAUD PORT ESP32_MODEL
+.PHONY: SDKCONFIG BAUD PORT
 
 BUILD_DIR_PREFIX := build
 
@@ -19,15 +19,17 @@ PORT ?= /dev/ttyUSB0
 
 set_target:
 	@set -e; \
-	idf.py -B ${BUILD_DIR_PREFIX}_${ESP32_MODEL} set-target ${ESP32_MODEL}; \
-	ESP32_MODEL=${ESP32_MODEL}; \
+	echo "List of targets:"; \
+	idf.py --list-targets; \
+	read -p "Enter ESP32 target: " ESP32_MODEL; \
+	idf.py -B ${BUILD_DIR_PREFIX}_$${ESP32_MODEL} set-target $${ESP32_MODEL}; \
 	mkdir -p $(dir ${ESP32_MODEL_FILENAME}); \
 	echo "$$ESP32_MODEL" > ${ESP32_MODEL_FILENAME}; \
 	echo "ESP32 model [$$ESP32_MODEL] saved to ${ESP32_MODEL_FILENAME}"
 
 build:
 ifeq (${ESP32_MODEL},)
-	$(error ESP32_MODEL is not set. Run 'make set_target ESP32_MODEL=[model]' first)
+	$(error ESP32_MODEL is not set. Run 'make set_target' first)
 endif	
 
 	@echo "${TAG} | Building IDF project with SDKCONFIG file: ${SDKCONFIG}"
@@ -35,7 +37,7 @@ endif
 
 flash:
 ifeq (${ESP32_MODEL},)
-	$(error ESP32_MODEL is not set. Run 'make set_target ESP32_MODEL=[model]' first)
+	$(error ESP32_MODEL is not set. Run 'make set_target' first)
 endif	
 
 	@echo "${TAG} | Flashing IDF project"
@@ -47,7 +49,7 @@ monitor:
 
 config:
 ifeq (${ESP32_MODEL},)
-	$(error ESP32_MODEL is not set. Run 'make set_target ESP32_MODEL=[model]' first)
+	$(error ESP32_MODEL is not set. Run 'make set_target' first)
 endif	
 
 	@echo "${TAG} | Opening menuconfig for SDKCONFIG file: ${SDKCONFIG}"
