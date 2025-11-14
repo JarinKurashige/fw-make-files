@@ -22,7 +22,7 @@ set_target:
 	echo "List of targets:"; \
 	idf.py --list-targets; \
 	read -p "Enter ESP32 target: " ESP32_MODEL; \
-	idf.py -B ${BUILD_DIR_PREFIX}_$${ESP32_MODEL} set-target $${ESP32_MODEL}; \
+	idf.py -B ${BUILD_DIR_PREFIX}_$${ESP32_MODEL} -DSDKCONFIG=$(SDKCONFIG) set-target $${ESP32_MODEL}; \
 	mkdir -p $(dir ${ESP32_MODEL_FILENAME}); \
 	echo "$$ESP32_MODEL" > ${ESP32_MODEL_FILENAME}; \
 	echo "ESP32 model [$$ESP32_MODEL] saved to ${ESP32_MODEL_FILENAME}"
