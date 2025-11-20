@@ -31,10 +31,17 @@ CURRENT_BUILD_DIR := ${RP2350_BUILD_DIR}
 PICO_BOARD := pico2
 endif
 
-all:
+all_swd:
 	@$(MAKE) build
 	@sleep 1
-	@$(MAKE) flash
+	@$(MAKE) flash_swd
+	@sleep 1
+	@$(MAKE) monitor
+
+all_picotool:
+	@$(MAKE) build
+	@sleep 1
+	@$(MAKE) flash_picotool
 	@sleep 1
 	@$(MAKE) monitor
 

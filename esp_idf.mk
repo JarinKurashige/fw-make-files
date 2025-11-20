@@ -41,11 +41,11 @@ ifeq (${ESP32_MODEL},)
 endif	
 
 	@echo "${TAG} | Flashing IDF project"
-	@idf.py -B ${BUILD_DIR_PREFIX}_${ESP32_MODEL} -b $(BAUD) flash -p $(PORT)
+	@idf.py -B ${BUILD_DIR_PREFIX}_${ESP32_MODEL} -DSDKCONFIG=$(SDKCONFIG) -b $(BAUD) flash -p $(PORT)
 
 monitor:
 	@echo "${TAG} | Monitoring IDF project"
-	@idf.py -b $(BAUD) monitor -p $(PORT)
+	@idf.py -b $(BAUD) -B ${BUILD_DIR_PREFIX}_${ESP32_MODEL} -DSDKCONFIG=$(SDKCONFIG) monitor -p $(PORT)
 
 config:
 ifeq (${ESP32_MODEL},)
