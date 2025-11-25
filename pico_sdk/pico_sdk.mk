@@ -7,9 +7,10 @@ TAG = "\\033[32\;1mMakefile\\033[0m"
 
 MAKEFILE_DIR := $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
 
-VALID_PICO_MODELS := RP2040 RP2350
+VALID_PICO_MODELS := RP2040 RP2350 PICO2_W
 RP2040_BUILD_DIR := build_rp2040
 RP2350_BUILD_DIR := build_rp2350
+PICO2_W_BUILD_DIR := build_pico2_w
 
 CHIPID_FILENAME := .env/chipid
 PICO_MODEL_FILENAME := .env/pico_model
@@ -29,6 +30,9 @@ PICO_BOARD := pico
 else ifeq ($(PICO_MODEL),RP2350)
 CURRENT_BUILD_DIR := ${RP2350_BUILD_DIR}
 PICO_BOARD := pico2
+else ifeq ($(PICO_MODEL),PICO2_W)
+CURRENT_BUILD_DIR := ${PICO2_W_BUILD_DIR}
+PICO_BOARD := pico2_w
 endif
 
 all_swd:
