@@ -5,6 +5,8 @@ TAG = "\\033[32\;1mMakefile\\033[0m"
 # Variables
 .PHONY: SDKCONFIG BAUD PORT
 
+MAKEFILE_DIR := $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
+
 BUILD_DIR_PREFIX := build
 
 ESP32_MODEL_FILENAME := .env/esp32_model
@@ -58,3 +60,7 @@ endif
 print_tasks:
 	@echo "${TAG} | Printing task information for SDKCONFIG file: ${SDKCONFIG}"
 	@python3 print_all_task_info.py sdkconfig=$(SDKCONFIG)
+
+scan_for_targets:
+	@echo "${TAG} | Printing all connected targets"
+	@bash ${MAKEFILE_DIR}scan_for_targets.sh
