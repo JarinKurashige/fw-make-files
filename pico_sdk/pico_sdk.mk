@@ -59,7 +59,7 @@ set_interface:
 	@set -e; \
 	INTERFACE=${INTERFACE}; \
 	mkdir -p $(dir ${INTERFACE_FILENAME}); \
-	echo "${TAG} | $$INTERFACE" > ${INTERFACE_FILENAME}; \
+	echo "$$INTERFACE" > ${INTERFACE_FILENAME}; \
 	echo "${TAG} | Interface [$$INTERFACE] saved to ${INTERFACE_FILENAME}"
 
 set_board:
@@ -68,14 +68,14 @@ set_board:
 	echo "${TAG} | ${VALID_PICO_MODELS}"; \
 	read -p "Enter RPxxxx target: " PICO_MODEL; \
 	mkdir -p $(dir ${PICO_MODEL_FILENAME}); \
-	echo "${TAG} | $$PICO_MODEL" > ${PICO_MODEL_FILENAME}; \
+	echo "$$PICO_MODEL" > ${PICO_MODEL_FILENAME}; \
 	echo "${TAG} | Pico model [$$PICO_MODEL] saved to ${PICO_MODEL_FILENAME}"
 
 set_project_name:
 	@set -e; \
 	PROJECT_NAME=${PROJECT_NAME}; \
 	mkdir -p $(dir ${PROJECT_FILENAME}); \
-	echo "${TAG} | $$PROJECT_NAME" > ${PROJECT_FILENAME}; \
+	echo "$$PROJECT_NAME" > ${PROJECT_FILENAME}; \
 	echo "${TAG} | Project name [$$PROJECT_NAME] saved to ${PROJECT_FILENAME}"
 
 get_sn:
@@ -83,7 +83,7 @@ get_sn:
 	echo "${TAG} | picotool requires root access. Please input credentials if required"; \
 	CHIPID=$$(sudo picotool info -df | grep "chipid:" | awk '{print toupper(substr($$2, 3))'}); \
 	mkdir -p $(dir ${CHIPID_FILENAME}); \
-	echo "${TAG} | $$CHIPID" > ${CHIPID_FILENAME}; \
+	echo "$$CHIPID" > ${CHIPID_FILENAME}; \
 	echo "${TAG} | Chip ID [$$CHIPID] saved to ${CHIPID_FILENAME}"
 
 build:
