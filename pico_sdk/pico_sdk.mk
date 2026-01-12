@@ -52,7 +52,7 @@ all_picotool:
 	@$(MAKE) build
 	@sleep 1
 	@$(MAKE) flash_picotool
-	@sleep 1
+	@sleep 2
 	@$(MAKE) monitor
 
 set_interface:
