@@ -159,7 +159,7 @@ endif
 	while [ ! -e "${INTERFACE}" ]; do sleep 0.2; done; \
 	mkdir -p "${LOG_DIR}"; \
 	LOG_FILE="pico_monitor_$$(date +%Y%m%d_%H%M%S).log"; \
-	script -q -c "minicom -D ${INTERFACE} -w -c on -O timestamp=extended" "${LOG_DIR}/$$LOG_FILE"; \
+	script -q -c "minicom -D ${INTERFACE} -w -c on" "${LOG_DIR}/$$LOG_FILE"; \
 	reset; \
 	ls -1t "${LOG_DIR}"/pico_monitor_*.log | tail -n +6 | xargs -r rm --; \
 
