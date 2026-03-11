@@ -7,7 +7,7 @@ TAG = "\\033[32\;1mMakefile\\033[0m"
 
 MAKEFILE_DIR := $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
 
-VALID_PICO_MODELS := RP2040 PICO_W RP2350 PICO2_W
+VALID_PICO_MODELS := RP2040 PICO_W RP2350A RP2350B PICO2_W
 
 #TODO: Make this dynamic based on the PICO_BOARD value rather than hard coded
 RP2040_BUILD_DIR := build_rp2040
@@ -33,9 +33,12 @@ PICO_BOARD := pico
 else ifeq ($(PICO_MODEL),PICO_W)
 CURRENT_BUILD_DIR := ${PICO_W_BUILD_DIR}
 PICO_BOARD := pico_w
-else ifeq ($(PICO_MODEL),RP2350)
+else ifeq ($(PICO_MODEL),RP2350A)
 CURRENT_BUILD_DIR := ${RP2350_BUILD_DIR}
 PICO_BOARD := pico2
+else ifeq ($(PICO_MODEL),RP2350B)
+CURRENT_BUILD_DIR := ${RP2350_BUILD_DIR}
+PICO_BOARD := pico2_B
 else ifeq ($(PICO_MODEL),PICO2_W)
 CURRENT_BUILD_DIR := ${PICO2_W_BUILD_DIR}
 PICO_BOARD := pico2_w
@@ -64,7 +67,7 @@ set_interface:
 
 set_board:
 	@set -e; \
-	echo "${TAG} | List of boards:"; \
+	echo "${TAG} | List of models:"; \
 	echo "${TAG} | ${VALID_PICO_MODELS}"; \
 	read -p "Enter RPxxxx target: " PICO_MODEL; \
 	mkdir -p $(dir ${PICO_MODEL_FILENAME}); \

@@ -1,4 +1,4 @@
-# Makefile for CDC
+# Makefile for ESP IDF
 
 TAG = "\\033[32\;1mMakefile\\033[0m"
 
