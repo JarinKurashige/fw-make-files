@@ -42,7 +42,7 @@ set_board:
 build:
 	@set -e;
 	@echo "${TAG} | Building project for ${BOARD_NAME}"
-	west build -b ${BOARD_NAME} app
+	west build -p always -b ${BOARD_NAME} app
 	@echo "${TAG} | Build completed!"
 
 flash:
